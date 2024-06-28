@@ -19,7 +19,7 @@ app.add_middleware(
 # 	  username VARCHAR(40) PRIMARY KEY,
 #     nome VARCHAR(20),
 #     cognome VARCHAR(20),   
-# 	  email VARCHAR(30),
+# 	  email VARCHAR(30),def
 #     password VARCHAR(60),
 #     ruolo VARCHAR(10)
 # );
@@ -57,7 +57,7 @@ def registrazione(user : registrazione):
     return{
         "msg":"registrato con successo"
     }
-
+\
 #BaseModel per l'accesso
 class userLogin(BaseModel):
     username: str
@@ -69,6 +69,7 @@ def login(user: userLogin):
     cursor = conn.cursor(dictionary=True)
 
     passHash = hashlib.md5(user.password.encode()).hexdigest()
+    
 
     cursor.execute(f"SELECT * FROM users WHERE username='{user.username}' AND password = '{passHash}'")
     user = cursor.fetchone()
