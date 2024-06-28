@@ -6,13 +6,6 @@ import hashlib
 
 app = FastAPI()
 
-config = {
-    "host": "127.0.0.1",
-    "port": "3306",
-    "user": "root",
-    "database": "supermercato_online"
-}
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,22 +15,42 @@ app.add_middleware(
     expose_headers=["Content-Disposition"],
 )
 
-@app.post("/api/register")
+# CREATE TABLE users(
+# 	  username VARCHAR(40) PRIMARY KEY,
+#     nome VARCHAR(20),
+#     cognome VARCHAR(20),   
+# 	  email VARCHAR(30),
+#     password VARCHAR(60),
+#     ruolo VARCHAR(10)
+# );
+
+
+config = {
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "root",
+    "database": "supermercato_online"
+}
+
+
+
 class registrazione(BaseModel):
-    email: str
-    password: str  
     nome: str
     cognome: str
+    username: str
+    email: str
+    password: str
     ruolo: str
-
-def registrazione_user(user : registrazione):
+    
+@app.post("/api/register")
+def registrazione(user : registrazione):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor()
 
     #converte la password in hash per una maggiore sicurezza
     passHash = hashlib.md5(user.password.encode()).hexdigest()
     
-    cursor.execute(f"INSERT INTO users (email, password, nome, cognome, ruolo) VALUES ('{user.email}', '{passHash}', '{user.nome}', '{user.cognome}', '{user.ruolo}')")
+    cursor.execute(f"INSERT INTO users (nome, cognome, username, email, password, ruolo) VALUES ('{user.nome}', '{user.cognome}','{user.username}','{user.email}', '{passHash}', '{user.ruolo}')")
 
     conn.commit()
     conn.close()
@@ -46,18 +59,18 @@ def registrazione_user(user : registrazione):
     }
 
 #BaseModel per l'accesso
-@app.post("/api/login")
 class userLogin(BaseModel):
-    email: str
+    username: str
     password: str
-
+    
+@app.get("/api/login")
 def login(user: userLogin):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor(dictionary=True)
 
     passHash = hashlib.md5(user.password.encode()).hexdigest()
 
-    cursor.execute(f"SELECT * FROM users WHERE email='{user.email}' AND password = '{passHash}'")
+    cursor.execute(f"SELECT * FROM users WHERE username='{user.username}' AND password = '{passHash}'")
     user = cursor.fetchone()
     
     conn.close()
