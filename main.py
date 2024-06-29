@@ -119,7 +119,12 @@ def modificaProdotto(prod : modificaProdotto):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} - {prod.quantitàAcquistata} WHERE idProdotto = '{prod.idProdotto}'")
+    if(prod.quantitàAcquistata > prod.quantità):
+        return {
+            "msg": "errore"
+        }
+    else:
+        cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} - {prod.quantitàAcquistata} WHERE idProdotto = '{prod.idProdotto}'")
 
     conn.commit()
     conn.close()
@@ -131,7 +136,7 @@ def getProdotti():
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM prodotti WHERE quantità > 0")
+    cursor.execute("SELECT * FROM prodotti ")
     prodotti = cursor.fetchall()
 
     conn.close()
