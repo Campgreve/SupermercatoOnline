@@ -63,18 +63,18 @@ class userLogin(BaseModel):
     username_login: str
     password_login: str
     
-@app.get("/api/login/{username_login}/{password_login}")
-def login(username_login: str, password_login: str):
+@app.post("/api/login")
+def login(user : userLogin):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor(dictionary=True)
 
-    passHash = hashlib.md5(password_login.encode()).hexdigest()
+    passHash = hashlib.md5(user.password_login.encode()).hexdigest()
     
-    cursor.execute(f"SELECT * FROM users WHERE username='{username_login}'")
+    cursor.execute(f"SELECT * FROM users WHERE username='{user.username_login}' AND password='{passHash}' ")
     user = cursor.fetchone()
     
     conn.close()
-    if user and user['password'] == passHash:
+    if user:
         return user
     else:
         return {

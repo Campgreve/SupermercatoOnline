@@ -33,14 +33,21 @@ async function login(){
     const username_login = document.getElementById("username_login").value
     const password_login = document.getElementById("password_login").value
 
-    const request = await fetch(`http://127.0.0.1:8000/api/login/${username_login}/${password_login}`)
+    const request = await fetch(`http://127.0.0.1:8000/api/login`, {
+        method : 'POST',
+        headers : {
+            "Content-Type" : 'application/json'
+        },
+        body: JSON.stringify({
+            username_login: username_login,
+            password_login: password_login
+        })
+    })
     const risposta = await request.json()
+    console.log(risposta)
 
-    passHash = hashlib.md5(password_login.encode()).hexdigest()
-
-    if (risposta.username === username_login && risposta.password === passHash) {
-        window.location.href = 'main.html';
-    } else {
-        alert("Errore di login");
+    if(risposta){
+        localStorage.setItem('username', risposta.username)
+        window.location.href='index.html'
     }
 }
