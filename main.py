@@ -34,7 +34,7 @@ config = {
 
 
 
-class registrazione(BaseModel):
+class utente(BaseModel):
     nome: str
     cognome: str
     username: str
@@ -43,7 +43,7 @@ class registrazione(BaseModel):
     ruolo: str
     
 @app.post("/api/register")
-def registrazione(user : registrazione):
+def registrazione(user : utente):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor()
 
@@ -57,27 +57,26 @@ def registrazione(user : registrazione):
     return{
         "msg":"registrato con successo"
     }
-\
+
 #BaseModel per l'accesso
 class userLogin(BaseModel):
-    username: str
-    password: str
+    username_login: str
+    password_login: str
     
-@app.get("/api/login")
-def login(user: userLogin):
+@app.get("/api/login/{username_login}/{password_login}")
+def login(username_login: str, password_login: str):
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor(dictionary=True)
 
-    passHash = hashlib.md5(user.password.encode()).hexdigest()
+    passHash = hashlib.md5(password_login.encode()).hexdigest()
     
-
-    cursor.execute(f"SELECT * FROM users WHERE username='{user.username}' AND password = '{passHash}'")
+    cursor.execute(f"SELECT * FROM users WHERE username='{username_login}'")
     user = cursor.fetchone()
     
     conn.close()
-    if user:
+    if user and user['password'] == passHash:
         return user
     else:
-        return{
-            "msg":"errore"
+        return {
+            "msg": "errore"
         }
