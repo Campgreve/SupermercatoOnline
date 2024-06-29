@@ -1,6 +1,3 @@
-$('.message a').click(function(){
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
- });
 
  async function registrazione(){
     const username = document.getElementById("username").value
@@ -51,3 +48,5 @@ async function login(){
         window.location.href='index.html'
     }
 }
+
+

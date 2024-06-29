@@ -80,3 +80,61 @@ def login(user : userLogin):
         return {
             "msg": "errore"
         }
+
+
+# CREATE TABLE prodotti(
+#       idProdotto INT(99) AUTO_INCREMENT PRIMARY KEY,
+#       fotoProdotto VARCHAR(99),
+#       nomeProdotto VARCHAR(20),
+#       prezzoProdotto FLOAT(20),
+#       quantità INT(99)
+#   );
+class prodotto(BaseModel):
+    nomeProdotto: str
+    fotoProdotto :str
+    prezzoProdotto: float
+    quantità: int
+
+
+@app.post("/api/prodotto")
+def prodotto(prod : prodotto):
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(f"INSERT INTO prodotti(nomeProdotto, fotoProdotto, prezzoProdotto, quantità) VALUES ('{prod.nomeProdotto}','{prod.fotoProdotto}', {prod.prezzoProdotto}, {prod.quantità})")
+    
+    conn.commit()
+    conn.close()
+
+
+
+class modificaProdotto(BaseModel):
+    quantitàAcquistata: int
+    quantità: int
+    idProdotto: int
+
+
+@app.post("/api/modificaProdotto")
+def modificaProdotto(prod : modificaProdotto):
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} - {prod.quantitàAcquistata} WHERE idProdotto = '{prod.idProdotto}'")
+
+    conn.commit()
+    conn.close()
+    
+    
+    
+@app.get("/api/prodotti")
+def getProdotti():
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM prodotti WHERE quantità > 0")
+    prodotti = cursor.fetchall()
+
+    conn.close()
+    return prodotti
+
+
