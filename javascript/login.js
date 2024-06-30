@@ -45,8 +45,14 @@ async function login(){
 
     if(risposta){
         localStorage.setItem('username', risposta.username)
+        localStorage.setItem('ruolo', risposta.ruolo)
         window.location.href='index.html'
     }
 }
 
 
+async function logout(){
+    localStorage.removeItem('username')
+    localStorage.removeItem('ruolo')
+    window.location.href='login.html'
+}

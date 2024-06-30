@@ -1,8 +1,22 @@
 body {
-    background-image: url("https://www.gdonews.it/wp-content/uploads/2020/11/eurosp.jpg");
-    background-repeat: no-repeat;
+    background: url("../src/eurosp-Photoroom.png") no-repeat;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.6);
     background-blend-mode: overlay;
+    overflow: hidden ;
 }
 
+#logospin {
+    filter: brightness(80%);
+
+}
+
+#login:hover {
+    color:gray;
+    transition: 200ms;
+}
+
+#navbar {
+    background-color:beige;
+
+}
