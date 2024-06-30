@@ -1,5 +1,4 @@
 const Oggetto = JSON.parse(localStorage.getItem('prodotti')) || [];
-console.log(Oggetto)
 
 const creaElemento = (elemento) => {
     const elementoLista  = document.createElement("li");

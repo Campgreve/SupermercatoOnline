@@ -136,7 +136,22 @@ def modificaProdotto(prod : modificaProdotto):
         conn.close()
         
         return prodotto
+    
+    
+class aggiungiProdotto(BaseModel):
+    quantitàAggiunta: int
+    quantità: int
+    nomeProdotto: str
+@app.post("/api/aggiungiProdotto")
+def aggiungiProdotto(prod : aggiungiProdotto):
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
 
+    cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} + {prod.quantitàAggiunta} WHERE nomeProdotto = '{prod.nomeProdotto}'")
+    
+    conn.commit()
+    conn.close()
+        
     
     
     
