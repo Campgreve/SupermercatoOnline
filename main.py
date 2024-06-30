@@ -120,14 +120,20 @@ def modificaProdotto(prod : modificaProdotto):
     cursor = conn.cursor(dictionary=True)
 
     if(prod.quantitàAcquistata > prod.quantità):
+        conn.close()
         return {
             "msg": "errore"
         }
     else:
         cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} - {prod.quantitàAcquistata} WHERE idProdotto = '{prod.idProdotto}'")
+        cursor.execute(f"SELECT * FROM prodotti WHERE idProdotto = '{prod.idProdotto}'")
+        prodotto = cursor.fetchone()
+        
+        conn.commit()
+        conn.close()
+        
+        return prodotto
 
-    conn.commit()
-    conn.close()
     
     
     
