@@ -46,7 +46,7 @@ async function login(){
     if(risposta){
         localStorage.setItem('username', risposta.username)
         localStorage.setItem('ruolo', risposta.ruolo)
-        window.location.href='index.html'
+        window.location.href='catalogo.html'
     }
 }
 
@@ -54,5 +54,5 @@ async function login(){
 async function logout(){
     localStorage.removeItem('username')
     localStorage.removeItem('ruolo')
-    window.location.href='login.html'
+    window.location.href='intro.html'
 }
