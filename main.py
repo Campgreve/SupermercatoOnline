@@ -167,3 +167,16 @@ def getProdotti():
     return prodotti
 
 
+@app.get("/api/quantitaProdotto/{nomeProdotto}")
+def getQuantitaProdotto(nomeProdotto: str):
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(f"SELECT quantità FROM prodotti WHERE nomeProdotto = %s", (nomeProdotto,))
+
+    quantita = cursor.fetchone()
+    
+    conn.close()
+
+    return quantita
+

@@ -48,7 +48,21 @@ async function aggiungiQuantità(){
     const nomeProdotto = document.getElementById("nomeProdotto").value
     const quantitàAggiunta = document.getElementById("quantitàAggiunta").value
 
-    const request = await fetch(`http://127.0.0.1:8000/api/prodotti`)
+    const request = await fetch(`http://127.0.0.1:8000/api/quantitaProdotto/${nomeProdotto}`)
+    const response = await request.json();
 
-    const quantità = request.quantità
+    const quantità = response.quantità
+
+    await fetch(`http://127.0.0.1:8000/api/aggiungiProdotto`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            quantitàAggiunta: quantitàAggiunta,
+            quantità: quantità,
+            nomeProdotto: nomeProdotto
+        })  
+
+    })
 }
