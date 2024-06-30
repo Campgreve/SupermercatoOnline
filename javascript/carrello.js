@@ -39,3 +39,29 @@ function rimuoviProdotto(button) {
 
 
 
+const Oggetto = document.getElementById("Oggetto")
+
+const aggiungiElemento = document.getElementById("aggiungiElemento")
+
+aggiungiElemento.addEventListener("keyup",function (e) {
+    if (e.key == "Enter" && e.target.value.trim()) {
+        creaElemento(e.target.value);
+        e.target.value = "";
+    }
+
+});
+
+const creaElemento = (elemento) => {
+    const elementoLista  = document.createElement("li");
+    elementoLista.className = "list-group-item d-flex justify-content-between";
+    elementoLista.innerHTML = <span>${elemento}</span><i class="bi bi-trash cestino"></i>;
+    Oggetto.appendChild(elementoLista);
+}
+
+Oggetto.addEventListener("click", (e)=> {
+    if(e.target.classList.contains("cestino")){
+    e.target.parentElement.remove();
+    }
+});
+
+

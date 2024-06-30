@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supermercato Online</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
@@ -48,12 +49,13 @@
     <div class="container">
         <h1 class="text-center mt-5">Carrello</h1>
         <hr>
-        <div class="row mb-5">
-            <div class="col-md-8">
-                <h2 class="text-center">Prodotti</h2>
-                <div id="lista-prodotti" class="d-flex flex-column gap-3">
-                </div>
-            </div>
+        <div class="container flex-column justify-content-center w-50">
+            <ul class="list-group" id="Oggetto">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>panino</span>
+                    <i class="bi bi-trash cestino"></i>
+                </li>
+          </div>
             <div class="col-md-4">
                 <h2 class="text-center">Totale spesa</h2>
                 <div id="totale-spesa" class="text-center fs-3"></div>
