@@ -33,7 +33,7 @@ async function acquista(id){
     const idProdotto = document.getElementById(`idProdotto${id}`).innerText
     const prezzoProdotto = document.getElementById(`prezzoProdotto${id}`).innerText
 
-    if (quantitàAcquistata < quantità){
+    if (quantitàAcquistata > quantità){
         alert('Quantità non valida')
     }
     else{
