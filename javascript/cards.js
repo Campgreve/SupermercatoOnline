@@ -6,6 +6,7 @@ async function createCard(){
 
     const catalogo = document.getElementById("catalogo")
     catalogo.innerHTML = ''
+    const prodotti = []
     for(let i = 0; i < risposta.length; i++){
         let card = document.createElement("div")
         card.classList.add("card", "mb-3")
@@ -21,7 +22,9 @@ async function createCard(){
                     </div>
                 `
         catalogo.appendChild(card)
+        prodotti.push(risposta[i])
     }
+    localStorage.setItem('prodotti', JSON.stringify(prodotti))
 }
 
 createCard()
@@ -30,14 +33,15 @@ createCard()
 
 async function acquista(id){
     const quantitàAcquistata = document.getElementById(`quantitàAcquistata${id}`).value
-    const quantità = document.getElementById(`quantità${id}`).innerText
-    const idProdotto = document.getElementById(`idProdotto${id}`).innerText
+    const prodotti = JSON.parse(localStorage.getItem('prodotti'))
+    const prodotto = prodotti.find(prodotto => prodotto.idProdotto === id)
+    const quantità = prodotto.quantità
 
     if (quantitàAcquistata < quantità){
         alert('Quantità non valida')
     }
     else{
-        console.log(quantitàAcquistata)
+        console.log(quantitàAcquistada)
         console.log(quantità)
         console.log(idProdotto)
         const request = await fetch(`http://127.0.0.1:8000/api/modificaProdotto`, {
@@ -48,12 +52,12 @@ async function acquista(id){
             body: JSON.stringify({
                 quantitàAcquistata: quantitàAcquistata,
                 quantità: quantità,
-                idProdotto: idProdotto
+                idProdotto: id
             })
         })
         const risposta = await request.json()
         console.log(risposta)
-        localStorage.setItem('prodotti', JSON.stringify(risposta))
+        localStorage.setItem('prodotti', JSON.stringify(prodotti))
         createCard()
     }
 }

@@ -88,7 +88,7 @@ def login(user : userLogin):
 #       nomeProdotto VARCHAR(20),
 #       prezzoProdotto FLOAT(20),
 #       quantità INT(99)
-#   );
+# );
 class prodotto(BaseModel):
     nomeProdotto: str
     fotoProdotto :str
