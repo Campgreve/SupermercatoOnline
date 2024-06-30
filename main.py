@@ -112,6 +112,7 @@ class modificaProdotto(BaseModel):
     quantitàAcquistata: int
     quantità: int
     idProdotto: int
+    prezzoProdotto: float
 
 
 @app.post("/api/modificaProdotto")
@@ -128,6 +129,8 @@ def modificaProdotto(prod : modificaProdotto):
         cursor.execute(f"UPDATE prodotti SET quantità = {prod.quantità} - {prod.quantitàAcquistata} WHERE idProdotto = '{prod.idProdotto}'")
         cursor.execute(f"SELECT * FROM prodotti WHERE idProdotto = '{prod.idProdotto}'")
         prodotto = cursor.fetchone()
+        prodotto["quantitàAcquistata"] = prod.quantitàAcquistata
+        prodotto["prezzoTotale"] = prod.quantitàAcquistata*prod.prezzoProdotto
         
         conn.commit()
         conn.close()
